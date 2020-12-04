@@ -20,3 +20,33 @@ export function fetchJokes() {
             });
     });
 }
+
+export function wordsCount() {
+    var readJOKES = JSON.parse(fs.readFileSync('jokes.json','utf-8'));
+    var str_words = [];
+    var joke_list = [];
+    var unique_word_count = {};
+    var result = {};
+
+    for (var x in readJOKES) {
+        joke_list.push(readJOKES[x]);
+        str_words.push(...readJOKES[x].split(' '));
+    }
+    var unique_words = [...new Set(str_words)];
+    var joke_joined = joke_list.join(' ');
+    
+    for (var elem in unique_words) {
+        var rgxp = new RegExp(unique_words[elem], "gi");
+        var matched = joke_joined.match(rgxp);
+        if (matched) {
+            unique_word_count[unique_words[elem]] = matched.length;
+        }
+    }
+    
+    result['jokes'] = joke_list;
+    result['words'] = unique_word_count;
+
+    return result;  
+};
+
+// console.log(wordsCount())

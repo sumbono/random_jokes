@@ -1,4 +1,4 @@
-import { fetchJokes } from "./libs.js";
+import { fetchJokes, wordsCount } from "./libs.js";
 import express from 'express';
 import axios from 'axios';
 import fs from 'fs';
@@ -18,7 +18,8 @@ app.get('/api', (req, res) => {
             count += 1;
             if (count == 5) {break;}
         }
-        console.log(chunked_jokes);
+        // console.log(chunked_jokes);
+        console.log('return 5 jokes.');
         res.send(chunked_jokes);
     });
 });
@@ -38,6 +39,10 @@ app.get('/api/refresh_jokes', (req, res) => {
         // console.log(chunked_jokes);
         res.send(chunked_jokes);
     });
+});
+
+app.get('/api/words_count', (req,res) => {
+    res.send(wordsCount());
 });
 
 app.delete('/api/delete_all', (req, res) => {
